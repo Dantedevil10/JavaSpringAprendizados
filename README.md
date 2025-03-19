@@ -1,93 +1,84 @@
-Documentação da API - Treinamento Java Spring
+# Treinamento Java Spring - API Backend
 
-Autenticação
+## Descrição
 
-POST /auth/register
+Este projeto é uma API desenvolvida com Java Spring Boot, oferecendo funcionalidades de autenticação, gerenciamento de usuários, pedidos e produtos. Ele implementa autenticação JWT e controle de acesso por roles.
 
-Descrição:
+## Tecnologias Utilizadas
+
+- **Java 17**
+- **Spring Boot 3.4.3**
+- **Spring Security**
+- **JWT (JSON Web Token)**
+- **JPA/Hibernate**
+- **Lombok**
+
+## Endpoints
+
+### Autenticação
+
+#### **POST /auth/register**
 Registra um novo usuário.
 
-Requisição:
-
+**Requisição:**
+```json
 {
   "email": "usuario@email.com",
   "username": "usuario123",
   "password": "senha123",
-  "role": "ROLE_USER" // Opcional, padrão é ROLE_USER
+  "role": "ROLE_USER"
 }
+```
 
-Resposta:
-
+**Resposta:**
+```json
 {
   "jwt-token": "token_gerado"
 }
+```
 
-Códigos de Resposta:
+#### **POST /auth/login**
+Realiza o login e retorna o token JWT.
 
-200 OK: Usuário registrado com sucesso.
-
-400 Bad Request: Dados inválidos ou faltando.
-
-POST /auth/login
-
-Descrição:
-Autentica o usuário e retorna um token JWT.
-
-Requisição:
-
+**Requisição:**
+```json
 {
   "username": "usuario123",
   "password": "senha123"
 }
+```
 
-Resposta:
-
+**Resposta:**
+```json
 {
   "jwt-token": "token_gerado"
 }
+```
 
-Códigos de Resposta:
+### Usuário
 
-200 OK: Login bem-sucedido.
+#### **GET /user/info**
+Retorna informações do usuário logado.
 
-401 Unauthorized: Usuário ou senha inválidos.
+**Header:** `Authorization: Bearer {token}`
 
-Usuário
-
-GET /user/info
-
-Descrição:
-Retorna os dados do usuário logado.
-
-Requisição:
-
-Header: Authorization: Bearer {token}
-
-Resposta:
-
+**Resposta:**
+```json
 {
   "id": 1,
   "email": "usuario@email.com",
   "username": "usuario123",
-  "password": "hash_senha",
   "role": "ROLE_USER"
 }
+```
 
-Códigos de Resposta:
+### Pedidos
 
-200 OK: Retorna informações do usuário.
-
-401 Unauthorized: Token inválido ou ausente.
-
-Pedidos
-
-POST /pedido/save
-
-Descrição:
+#### **POST /pedido/save**
 Cria um novo pedido.
 
-Requisição:
-
+**Requisição:**
+```json
 {
   "endereco": "Rua das Flores, 123",
   "dataPedido": "2024-03-19T14:30:00",
@@ -97,141 +88,67 @@ Requisição:
     { "id": 2 }
   ]
 }
+```
 
-Resposta:
+#### **GET /pedido/{id}**
+Retorna um pedido pelo ID.
 
-{
-  "id": 10,
-  "endereco": "Rua das Flores, 123",
-  "dataPedido": "2024-03-19T14:30:00",
-  "status": "PENDENTE",
-  "produtos": [
-    { "id": 1, "nome": "Produto A", "preco": 10.0 },
-    { "id": 2, "nome": "Produto B", "preco": 20.0 }
-  ]
-}
+### Produtos
 
-Códigos de Resposta:
+#### **POST /produto/save**
+Cria um novo produto (**Requer ROLE_ADMIN**).
 
-200 OK: Pedido salvo com sucesso.
-
-400 Bad Request: Dados inválidos.
-
-GET /pedido/{id}
-
-Descrição:
-Busca um pedido pelo ID.
-
-Resposta:
-
-{
-  "id": 10,
-  "endereco": "Rua das Flores, 123",
-  "dataPedido": "2024-03-19T14:30:00",
-  "status": "PENDENTE",
-  "produtos": [
-    { "id": 1, "nome": "Produto A", "preco": 10.0 },
-    { "id": 2, "nome": "Produto B", "preco": 20.0 }
-  ]
-}
-
-Códigos de Resposta:
-
-200 OK: Pedido encontrado.
-
-404 Not Found: Pedido não encontrado.
-
-Produtos
-
-POST /produto/save
-
-Descrição:
-Cria um novo produto (Requer papel ADMIN).
-
-Requisição:
-
+**Requisição:**
+```json
 {
   "nome": "Produto X",
   "preco": 99.99,
   "descricao": "Produto de teste"
 }
+```
 
-Resposta:
-
-{
-  "id": 5,
-  "nome": "Produto X",
-  "preco": 99.99,
-  "descricao": "Produto de teste"
-}
-
-Códigos de Resposta:
-
-200 OK: Produto criado com sucesso.
-
-403 Forbidden: Usuário sem permissão.
-
-GET /produto/all
-
-Descrição:
+#### **GET /produto/all**
 Retorna todos os produtos.
 
-Resposta:
+## Controle de Acesso
 
-[
-  { "id": 1, "nome": "Produto A", "preco": 10.0 },
-  { "id": 2, "nome": "Produto B", "preco": 20.0 }
-]
+- `/auth/`: Acesso público.
+- `/user/`: Requer `ROLE_USER` ou `ROLE_ADMIN`.
+- `/pedido/`: Requer `ROLE_USER` ou `ROLE_ADMIN`.
+- `/produto/`: Requer `ROLE_ADMIN`.
 
-Códigos de Resposta:
+## Como Rodar o Projeto
 
-200 OK: Lista retornada com sucesso.
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seuusuario/seuprojeto.git
+   ```
 
-GET /produto/{id}
+2. Entre na pasta do projeto:
+   ```bash
+   cd seuprojeto
+   ```
 
-Descrição:
-Busca um produto pelo ID.
+3. Instale as dependências:
+   ```bash
+   mvn clean install
+   ```
 
-Resposta:
+4. Configure o banco de dados (`application.properties`):
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/seubanco
+   spring.datasource.username=root
+   spring.datasource.password=senha
+   ```
 
-{
-  "id": 1,
-  "nome": "Produto A",
-  "preco": 10.0,
-  "descricao": "Produto bom"
-}
+5. Execute a aplicação:
+   ```bash
+   mvn spring-boot:run
+   ```
 
-Códigos de Resposta:
+6. Acesse a API:
+   ```
+   http://localhost:8080/auth/register
+   ```
 
-200 OK: Produto encontrado.
-
-404 Not Found: Produto não encontrado.
-
-Controle de Acesso
-
-/auth/: Acesso público.
-
-/user/: Requer ROLE_USER ou ROLE_ADMIN.
-
-/pedido/: Requer ROLE_USER ou ROLE_ADMIN.
-
-/produto/: Requer ROLE_ADMIN.
-
-Como rodar o projeto
-
-Clone o repositório:
-
-git clone https://github.com/seu-usuario/seu-repositorio.git
-
-Navegue até a pasta do projeto:
-
-cd seu-repositorio
-
-Rode o projeto Spring Boot:
-
-./mvnw spring-boot:run
-
-Agora a API estará disponível em http://localhost:8080.
-
-Essa documentação cobre as funcionalidades principais do backend. Quer que eu adicione exemplos de erros mais específicos ou tratamentos adicionais?
-
+Agora é só testar a API! 🚀
