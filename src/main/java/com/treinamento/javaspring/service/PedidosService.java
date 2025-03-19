@@ -26,6 +26,7 @@ public class PedidosService {
 		Set<Produtos> produtos = new HashSet<>();
 
 		pedido.setDataPedido(LocalDateTime.now());
+		pedido.setStatus("Seu Pedido Está Sendo Preparado");
 
 		// Garantir que os produtos existem
 		pedido.getProdutos().forEach(produto -> {

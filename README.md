@@ -86,7 +86,6 @@ Cria um novo pedido.
 {
   "endereco": "Rua das Flores, 123",
   "dataPedido": "2024-03-19T14:30:00",
-  "status": "PENDENTE",
   "produtos": [
     { "id": 1 },
     { "id": 2 }
