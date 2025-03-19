@@ -11,7 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.treinamento.javaspring.auth.security.JwtUtil;
-import com.treinamento.javaspring.auth.security.MyUserDetailService;
+import com.treinamento.javaspring.auth.service.MyUserDetailService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

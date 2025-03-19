@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.treinamento.javaspring.auth.filter.JWTFilter;
 import com.treinamento.javaspring.auth.repository.UserRepository;
+import com.treinamento.javaspring.auth.service.MyUserDetailService;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -41,7 +42,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/user/**").hasAnyRole("USER" , "ADMIN")
+                        .requestMatchers("/pedido/**").hasAnyRole("USER" , "ADMIN")
+                        .requestMatchers("/produto/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .userDetailsService(userDetailService)
                 .exceptionHandling(exceptionHandling -> exceptionHandling

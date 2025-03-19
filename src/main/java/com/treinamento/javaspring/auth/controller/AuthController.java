@@ -38,6 +38,12 @@ public class AuthController {
     public Map<String, Object> registerHandler(@RequestBody User user){
         String encodedPass = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPass);
+
+        // Define a role padrão como USER
+        if (user.getRole() == null) {
+            user.setRole("ROLE_USER");
+        }
+
         user = userRepo.save(user);
 
         String token = jwtUtil.generateToken(user.getUsername());

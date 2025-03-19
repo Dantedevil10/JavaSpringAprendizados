@@ -26,9 +26,14 @@ public class PedidosService {
 		Set<Produtos> produtos = new HashSet<>();
 
 		pedido.setDataPedido(LocalDateTime.now());
+
+		// Garantir que os produtos existem
 		pedido.getProdutos().forEach(produto -> {
-			produtos.add(produtoRepository.getById(produto.getId()));
+			Produtos produtoEncontrado = produtoRepository.findById(produto.getId())
+				.orElseThrow(() -> new RuntimeException("Produto não encontrado: " + produto.getId()));
+			produtos.add(produtoEncontrado);
 		});
+
 		pedido.setProdutos(produtos);
 
 		return repository.save(pedido);

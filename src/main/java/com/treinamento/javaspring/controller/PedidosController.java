@@ -22,16 +22,16 @@ public class PedidosController {
 	private PedidosService service;
 
 	@PostMapping("/save")
-	public ResponseEntity<Pedidos> salvaProduto(@RequestBody Pedidos produto) {
+	public ResponseEntity<Pedidos> salvaPedido(@RequestBody Pedidos pedido) {
 
-		produto = service.save(produto);
+		pedido = service.save(pedido);
 
-		return ResponseEntity.ok().body(produto);
+		return ResponseEntity.ok().body(pedido);
 
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Pedidos> buscaProduto(@PathVariable Long id) {
+	public ResponseEntity<Pedidos> buscaPedido(@PathVariable Long id) {
 
 		Pedidos pedido = service.findById(id);
 
@@ -40,7 +40,7 @@ public class PedidosController {
 	}
 
 	@GetMapping("/busca-todos")
-	public ResponseEntity<List<Pedidos>> buscaTodosProdutos() {
+	public ResponseEntity<List<Pedidos>> buscaTodosPedidos() {
 
 		List<Pedidos> pedidos = service.findAll();
 

@@ -1,4 +1,4 @@
-package com.treinamento.javaspring.auth.security;
+package com.treinamento.javaspring.auth.service;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -24,14 +24,13 @@ public class MyUserDetailService implements UserDetailsService{
 
         if(userRes.isEmpty())
             throw new UsernameNotFoundException("No user found with this username "+username);
+
         User user = userRes.get();
-        return new
-                org.springframework.security.core.userdetails.User(
-                        username,
-                        user.getPassword(),
-                        Collections.singletonList(
-                                new SimpleGrantedAuthority("ROLE_USER")
-                        )
+
+        return new org.springframework.security.core.userdetails.User(
+                username,
+                user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
         );
     }
 }

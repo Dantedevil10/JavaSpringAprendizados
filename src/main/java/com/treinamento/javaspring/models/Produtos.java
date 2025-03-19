@@ -17,5 +17,7 @@ public class Produtos {
 	private String nome;
 	
 	private Double preco;
+
+	private String descricao;
 		
 }
