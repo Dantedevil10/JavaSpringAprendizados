@@ -4,6 +4,10 @@
 
 Este projeto é uma API desenvolvida com Java Spring Boot, oferecendo funcionalidades de autenticação, gerenciamento de usuários, pedidos e produtos. Ele implementa autenticação JWT e controle de acesso por roles.
 
+Atenção : Este projeto é somente demonstrativo.
+
+Atenção : Antes de TODA Requisição que não seja ("/auth") dentro do sistema ,deve-se ser feito primeiro a criação de um usuário e seu respectivo Login com o Token 
+
 ## Tecnologias Utilizadas
 
 - **Java 17**
@@ -26,7 +30,7 @@ Registra um novo usuário.
   "email": "usuario@email.com",
   "username": "usuario123",
   "password": "senha123",
-  "role": "ROLE_USER"
+  "role": "ROLE_USER" //Caso queira um Usuario ADM mude de "ROLE_USER" para "ROLE_ADMIN"
 }
 ```
 
